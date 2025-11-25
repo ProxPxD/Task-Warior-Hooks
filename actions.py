@@ -51,13 +51,15 @@ class ReverseDependency(Action):
 class Autotag(Action):
     same_tagging = [
         'buy', 'learn', 'move', 'design', 'server', 'fix',
-        'scraplang', 'langcode', 'game', 'taskwarrior',
+        'game', 'taskwarrior',
     ]
     pattern_to_tags = {
         '(vault|bit)warden': ['vaultwarden', 'password', 'self.hosting'],
         'backup': ['backup', 'security'],
         '(prog|code)\w*': ['prog'],
         'obsi(dian)?': ['obsi', 'note'],
+        'scraplang': ['scraplang', 'python', 'prog'],
+        'langcode': ['langcode', 'python', 'prog'],
     }
     tag_to_tags = {
         'private': ['priv'],
@@ -65,18 +67,20 @@ class Autotag(Action):
         'langcode': ['langcode', 'python', 'prog'],
     }
     def create(self, task: Task, old_task: Task = None) -> Tuple[MsgCmds, Task, MsgCmds]:
-        tag_tags = self._create_tags_by_tags(task[TAGS])
+        if common := set(self.pattern_to_tags.keys()) & set(self.same_tagging):
+            raise ValueError(f'{Autotag.__class__.__name__}: Common patterns are not allowed: {common}')
+        tag_tags = self._create_tags_by_tags(task.get(TAGS, []))
         descr_tags = self._create_tags_by_descr(task[DESCR])
         task[TAGS] = list({*tag_tags, *descr_tags})
         return [], task, []
 
     def _create_tags_by_descr(self, descr: str) -> list[str]:
-        tags = []
+        gathered_tags = []
         self.pattern_to_tags.update({word: [word] for word in self.same_tagging})
         for pattern, tags in self.pattern_to_tags.items():
             if re.search(pattern, descr, flags=re.IGNORECASE):
-                tags.extend(tags)
-        return tags
+                gathered_tags.extend(tags)
+        return gathered_tags
 
     def _create_tags_by_tags(self, tags: list[str]) -> list[str]:
         for check_tag, add_tags in self.tag_to_tags.items():
