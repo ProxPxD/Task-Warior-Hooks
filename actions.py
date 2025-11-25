@@ -50,7 +50,7 @@ class ReverseDependency(Action):
 
 class Autotag(Action):
     same_tagging = [
-        'buy', 'learn', 'move', 'design', 'server',
+        'buy', 'learn', 'move', 'design', 'server', 'fix',
         'scraplang', 'langcode', 'game', 'taskwarrior',
     ]
     pattern_to_tags = {
@@ -61,6 +61,8 @@ class Autotag(Action):
     }
     tag_to_tags = {
         'private': ['priv'],
+        'scraplang': ['scraplang', 'python', 'prog'],
+        'langcode': ['langcode', 'python', 'prog'],
     }
     def create(self, task: Task, old_task: Task = None) -> Tuple[MsgCmds, Task, MsgCmds]:
         tag_tags = self._create_tags_by_tags(task[TAGS])
