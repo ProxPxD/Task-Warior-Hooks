@@ -59,7 +59,7 @@ class Autotag(Action):
         '(prog|code)\w*': ['prog'],
         'obsi(dian)?': ['obsi', 'note'],
         'scraplang': ['scraplang', 'python', 'prog'],
-        'langcode': ['langcode', 'python', 'prog'],
+        'langcode': ['langcode', 'python', 'prog', 'conlang'],
     }
     tag_to_tags = {
         'private': ['priv'],
