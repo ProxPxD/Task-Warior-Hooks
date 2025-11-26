@@ -54,7 +54,7 @@ class Autotag(Action):
         'game', 'taskwarrior', 'ai',
     ]
     pattern_to_tags = {
-        '(vault|bit)warden': ['vaultwarden', 'password', 'self.hosting'],
+        '(vault|bit)warden': ['vaultwarden', 'password', 'self.hosting', 'security'],
         'backup': ['backup', 'security'],
         '(prog|code)\w*': ['prog'],
         'obsi(dian)?': ['obsi', 'note'],
