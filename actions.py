@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from idlelib.colorizer import prog_group_name_to_tag
 from time import sleep
 from typing import Tuple, Iterable
 import pydash as _
@@ -60,6 +61,7 @@ class Autotag(Action):
         'obsi(dian)?': ['obsi', 'note'],
         'scraplang': ['scraplang', 'python', 'prog'],
         'langcode': ['langcode', 'python', 'prog', 'conlang'],
+        r'pred(ict(ion)?)?s?(?!\w)': ['ai'],
     }
     tag_to_tags = {
         'private': ['priv'],
