@@ -52,7 +52,7 @@ class ReverseDependency(Action):
 class Autotag(Action):
     same_tagging = [
         'buy', 'learn', 'move', 'design', 'server', 'fix',
-        'game', 'taskwarrior', 'ai',
+        'game', 'taskwarrior', 'ai', 'todo',
     ]
     pattern_to_tags = {
         '(vault|bit)warden': ['vaultwarden', 'password', 'self.hosting', 'security'],
