@@ -39,7 +39,7 @@ def execute(cmd_dict: MsgCmds) -> None:
 
 def guard(cmd: Cmd) -> bool:
     attrs = [part for part in cmd if ':' in part and ' ' not in part]
-    if unalloweds := c(attrs).filter(lambda a: any(s in a for s in '_-.')).value():
+    if unalloweds := c(attrs).split(':').map(c().get(0)).filter(lambda n: any(s in n for s in '_-.')).value():
         raise ValueError(f'Unallowed symbol in attribute: {unalloweds}')
     return True
 
