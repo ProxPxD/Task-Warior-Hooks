@@ -78,7 +78,7 @@ class Autotag(Action):
 
     def _create_tags_by_descr(self, descr: str) -> list[str]:
         gathered_tags = []
-        self.pattern_to_tags.update({word: [word] for word in self.same_tagging})
+        self.pattern_to_tags.update({kind: [word] for word in self.same_tagging for kind in {f'{word} ', f' {word}'}})
         for pattern, tags in self.pattern_to_tags.items():
             if re.search(pattern, descr, flags=re.IGNORECASE):
                 gathered_tags.extend(tags)
