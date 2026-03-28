@@ -68,6 +68,11 @@ class Autotag(Action):
         'scraplang': ['scraplang', 'python', 'prog'],
         'langcode': ['langcode', 'python', 'prog'],
     }
+    any_tags_to_tags = {
+        ('series', 'anime', 'film'): ['watch'],
+        ('watch', 'read'): ['culture'],
+    }
+
     def create(self, task: Task, old_task: Task = None) -> Tuple[MsgCmds, Task, MsgCmds]:
         if common := set(self.pattern_to_tags.keys()) & set(self.same_tagging):
             raise ValueError(f'{Autotag.__class__.__name__}: Common patterns are not allowed: {common}')
@@ -87,6 +92,9 @@ class Autotag(Action):
     def _create_tags_by_tags(self, tags: list[str]) -> list[str]:
         for check_tag, add_tags in self.tag_to_tags.items():
             if check_tag in tags:
+                tags.extend(add_tags)
+        for check_tags, add_tags in self.any_tags_to_tags:
+            if any(check_tag in tags for check_tag in check_tags):
                 tags.extend(add_tags)
         return tags
 
