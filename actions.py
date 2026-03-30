@@ -93,7 +93,7 @@ class Autotag(Action):
         for check_tag, add_tags in self.tag_to_tags.items():
             if check_tag in tags:
                 tags.extend(add_tags)
-        for check_tags, add_tags in self.any_tags_to_tags:
+        for check_tags, add_tags in self.any_tags_to_tags.items():
             if any(check_tag in tags for check_tag in check_tags):
                 tags.extend(add_tags)
         return tags
